@@ -36,6 +36,10 @@ public class ExistingFragment extends Fragment {
         appBitmapsInt.add(R.drawable.darin2);
         appBitmapsInt.add(R.drawable.darin3);
         appBitmapsInt.add(R.drawable.darin4);
+        appBitmapsInt.add(R.drawable.darin5);
+        appBitmapsInt.add(R.drawable.darin6);
+        appBitmapsInt.add(R.drawable.darin7);
+        appBitmapsInt.add(R.drawable.darin8);
 //        appBitmapsInt.add(R.drawable.flow);
 
 
@@ -43,6 +47,10 @@ public class ExistingFragment extends Fragment {
         appBitmaps.add(getBitmapResize(R.drawable.darin2));
         appBitmaps.add(getBitmapResize(R.drawable.darin3));
         appBitmaps.add(getBitmapResize(R.drawable.darin4));
+        appBitmaps.add(getBitmapResize(R.drawable.darin5));
+        appBitmaps.add(getBitmapResize(R.drawable.darin6));
+        appBitmaps.add(getBitmapResize(R.drawable.darin7));
+        appBitmaps.add(getBitmapResize(R.drawable.darin8));
 //        appBitmaps.add(getBitmapResize(R.drawable.flow));
 
 

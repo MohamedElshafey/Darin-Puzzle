@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,8 +36,47 @@ import java.util.List;
 /**
  * Created by Mohamed Elshafey on 2016-08-24.
  */
-public class Game extends Fragment
-{
+public class Game extends Fragment implements
+        GestureDetector.OnGestureListener,
+        GestureDetector.OnDoubleTapListener{
+
+    private GestureDetectorCompat mDetector;
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        Log.d("DEBUGTAG", "Action was DOWN");
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+        Log.d("DEBUGTAG", "Action was PRESS");
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        Log.d("DEBUGTAG", "Action was SINGLE TAP UP");
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        Log.d("DEBUGTAG", "Action was SCROLL");
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+        Log.d("DEBUGTAG", "Action was LONG PRESS");
+    }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        Log.d("DEBUGTAG", "Action was onFLING");
+        return false;
+    }
+
     GridView gridView;
     LinearLayout linearLayout;
     private Boolean bad_move=false;
@@ -57,6 +98,18 @@ public class Game extends Fragment
     String imagePath;
     boolean ImagePath;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+
+        mDetector = new GestureDetectorCompat(getActivity(),this);
+        // Set the gesture detector as the double tap
+        // listener.
+        mDetector.setOnDoubleTapListener(this);
+
+
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,6 +120,14 @@ public class Game extends Fragment
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         correctMovesTextView = (TextView)view.findViewById(R.id.correctMovesTextView);
         originalImageView = (SquareImageView) view.findViewById(R.id.originalImageView);
+
+
+
+
+
+
+
+
         CropImageManipulator cr = new CropImageManipulator();
 
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -141,40 +202,59 @@ public class Game extends Fragment
         //Swipe OnTouch
 
 
-        gridView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent){
-
-
-                int action = MotionEventCompat.getActionMasked(motionEvent);
-
-                switch(action) {
-                    case (MotionEvent.ACTION_DOWN):
-                        Log.d("DEBUGTAG", "Action was DOWN");
-                        return true;
-//                    case (MotionEvent.ACTION_MOVE):
-//                        Log.d("DEBUGTAG", "Action was MOVE");
+//        gridView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent){
+//
+//
+//                int action = MotionEventCompat.getActionMasked(motionEvent);
+//
+//                switch(action) {
+//                    case (MotionEvent.ACTION_DOWN):
+//                        Log.d("DEBUGTAG", "Action was DOWN");
 //                        return true;
-                    case (MotionEvent.ACTION_UP):
-                        Log.d("DEBUGTAG", "Action was UP");
-                        return true;
-                    case (MotionEvent.ACTION_CANCEL):
-                        Log.d("DEBUGTAG", "Action was CANCEL");
-                        return true;
-                    case (MotionEvent.ACTION_OUTSIDE):
-                        Log.d("DEBUGTAG", "Movement occurred outside bounds " +
-                                "of current screen element");
-                        return true;
-                    default:
-                        return true;
-                }
-
-            }
-        });
+////                    case (MotionEvent.ACTION_MOVE):
+////                        Log.d("DEBUGTAG", "Action was MOVE");
+////                        return true;
+//                    case (MotionEvent.ACTION_UP):
+//                        Log.d("DEBUGTAG", "Action was UP");
+//                        return true;
+//                    case (MotionEvent.ACTION_CANCEL):
+//                        Log.d("DEBUGTAG", "Action was CANCEL");
+//                        return true;
+//                    case (MotionEvent.ACTION_OUTSIDE):
+//                        Log.d("DEBUGTAG", "Movement occurred outside bounds " +
+//                                "of current screen element");
+//                        return true;
+//                    default:
+//                        return true;
+//                }
+//
+//            }
+//        });
 
 
         return view;
     }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
+        Log.d("DEBUGTAG", "Action was onSINGLETAPCONFIRMED");
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent motionEvent) {
+        Log.d("DEBUGTAG", "Action was onDOUBLEtap");
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent motionEvent) {
+        Log.d("DEBUGTAG", "Action was onDOUBLEtapEVENT");
+        return false;
+    }
+
     public class GridViewAdapter extends ArrayAdapter {
         Context context;
         ArrayList<Bitmap> croppedImage;
@@ -198,16 +278,23 @@ public class Game extends Fragment
             } else {
                 holder = (ViewHolder) row.getTag();
             }
-
 //            if(position!=empty_pos) {
             holder.thumb.setImageBitmap(croppedImage.get(position));
             holder.thumb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makeMove((SquareImageView) view, position);
+                    //makeMove((SquareImageView) view, position);
                 }
             });
 
+
+            holder.thumb.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    makeMove((SquareImageView)view,position);
+                    return false;
+                }
+            });
             return row;
         }
 

@@ -8,7 +8,7 @@
         android:required="true" />
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icn_puzzle"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

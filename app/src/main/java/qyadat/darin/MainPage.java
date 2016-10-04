@@ -15,12 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 /**
  * Created by Mohamed Elshafey on 2016-08-24.
  */
 public class MainPage extends Fragment {
-    Button galleryButton, existingButton, cameraButton;
+    ImageView existingButton, cameraButton,galleryButton;
+
     private static final int SELECT_PICTURE = 1;
     static final int REQUEST_IMAGE_CAPTURE = 2;
     Uri imageUri;
@@ -30,9 +33,9 @@ public class MainPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_page, container, false);
-        galleryButton = (Button) view.findViewById(R.id.galleryButton);
-        existingButton = (Button) view.findViewById(R.id.existingButton);
-        cameraButton = (Button) view.findViewById(R.id.cameraButton);
+        galleryButton = (ImageView) view.findViewById(R.id.galleryButton);
+        existingButton = (ImageView) view.findViewById(R.id.existingButton);
+        cameraButton = (ImageView) view.findViewById(R.id.cameraButton);
 
         existingButton.setOnClickListener(new View.OnClickListener() {
             @Override
