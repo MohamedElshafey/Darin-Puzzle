@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -348,7 +347,7 @@ public class Game extends Fragment implements
         }
         if(bad_move==true)
         {
-            IndicatorTextView.setText("NOT ALLOWED");
+//            IndicatorTextView.setText("NOT ALLOWED");
             return;
         }else {
             moves++;
