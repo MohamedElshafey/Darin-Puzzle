@@ -1,7 +1,7 @@
 <RelativeLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/darin_cartoon">
+    android:background="@drawable/darin6">
 
     <ImageView
         android:layout_width="48dp"

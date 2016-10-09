@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -23,14 +25,21 @@ public class ExistingFragment extends Fragment {
     ArrayList<Bitmap> appBitmaps = new ArrayList<>();
     ArrayList<Integer> appBitmapsInt = new ArrayList<>();
     int bestFit;
+    BitmapFactory.Options options;
+    GridView gridView;
+    ProgressBar progressBar;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.existing_fragment,container,false);
-        GridView gridView = (GridView)view.findViewById(R.id.gridView);
+        gridView = (GridView)view.findViewById(R.id.gridView);
+        progressBar = (ProgressBar)view.findViewById(R.id.progress_bar);
+
         appBitmapsInt.clear();
         appBitmaps.clear();
 
+        options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
 
         appBitmapsInt.add(R.drawable.darin1);
         appBitmapsInt.add(R.drawable.darin2);
@@ -40,37 +49,44 @@ public class ExistingFragment extends Fragment {
         appBitmapsInt.add(R.drawable.darin6);
         appBitmapsInt.add(R.drawable.darin7);
         appBitmapsInt.add(R.drawable.darin8);
-//        appBitmapsInt.add(R.drawable.flow);
 
-
-        appBitmaps.add(getBitmapResize(R.drawable.darin1));
-        appBitmaps.add(getBitmapResize(R.drawable.darin2));
-        appBitmaps.add(getBitmapResize(R.drawable.darin3));
-        appBitmaps.add(getBitmapResize(R.drawable.darin4));
-        appBitmaps.add(getBitmapResize(R.drawable.darin5));
-        appBitmaps.add(getBitmapResize(R.drawable.darin6));
-        appBitmaps.add(getBitmapResize(R.drawable.darin7));
-        appBitmaps.add(getBitmapResize(R.drawable.darin8));
-//        appBitmaps.add(getBitmapResize(R.drawable.flow));
-
-
-
-//        new GridViewAdapter(getActivity(),appBitmaps);
-        gridView.setAdapter(new GridViewAdapter(getActivity(),appBitmaps));
+        new GetResults().execute();
         return view;
     }
 
+    public class GetResults extends AsyncTask<Void, Void, ArrayList<String>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> strings) {
+            super.onPostExecute(strings);
+            gridView.setAdapter(new GridViewAdapter(getActivity(),appBitmaps));
+            progressBar.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected ArrayList<String> doInBackground(Void... voids) {
+            appBitmaps.add(getBitmapResize(R.drawable.darin1));
+            appBitmaps.add(getBitmapResize(R.drawable.darin2));
+            appBitmaps.add(getBitmapResize(R.drawable.darin3));
+            appBitmaps.add(getBitmapResize(R.drawable.darin4));
+            appBitmaps.add(getBitmapResize(R.drawable.darin5));
+            appBitmaps.add(getBitmapResize(R.drawable.darin6));
+            appBitmaps.add(getBitmapResize(R.drawable.darin7));
+            appBitmaps.add(getBitmapResize(R.drawable.darin8));
+            return null;
+        }
+    }
+
     private Bitmap getBitmapResize(int image) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(getResources(),image, options);
         int imageHeight = options.outHeight;
         int imageWidth = options.outWidth;
-        if(imageHeight>imageWidth)
-            bestFit =imageHeight;
-        else
-            bestFit =imageWidth;
-        Bitmap resized = Bitmap.createScaledBitmap(((BitmapDrawable)getResources().getDrawable(image)).getBitmap(), bestFit, bestFit, true);
+        Bitmap resized = Bitmap.createScaledBitmap(((BitmapDrawable)getResources().getDrawable(image)).getBitmap(),imageWidth,imageHeight,true);
         return resized;
     }
 
@@ -98,7 +114,6 @@ public class ExistingFragment extends Fragment {
                 holder = (ViewHolder) row.getTag();
             }
 
-//            if(position!=empty_pos) {
             holder.thumb.setImageBitmap(croppedImage.get(position));
             holder.thumb.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -76,7 +76,6 @@ public class MainPage extends Fragment {
             ft.replace(R.id.fragment_container, game);
             ft.addToBackStack(null);
             ft.commit();
-
                 Log.d("IAM_INN",imageurl);
             } catch (Exception e) {
                 e.printStackTrace();
